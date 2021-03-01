@@ -1,0 +1,58 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+
+<div class="row">
+    <div class="col-lg-4">
+        <ul>
+            <h2>Sidebar</h2>
+        </ul>
+        <ul>
+            <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'movie_list' %}">Movies</a></li>
+            <li><a class="nav-item nav-link active" href="{% url 'star_list' %}">Stars</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'genre_list' %}">Genre</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8">
+    <div class="content-section">
+        <a href="{% url 'add_star' %}" style="float:right"><button class="btn-btn-Success">Add New Star</button></a>
+        <div class="col-lg-2">
+            <h2>Stars</h2>
+        </div>
+              <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="20%">Image</th>
+                        <th width="20%">Star Name</th>
+                        <th width="40%">Star Info</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for star in starCast %}
+                    <tr>
+                        <td><img class="account-img" style="height: 100px;width: 100px;padding: 5px;" src="{{ star.image.url }}"></td>
+                        <td>{{ star.star_name|upper }}</td>
+                        <td>{{ star.star_info|upper }}</td>
+                        <td><a href="{% url 'update_star' star.id %}"><button class="btn-btn-info">Edit</button></a></td>
+                        <td><a href="{% url 'delete_star' star.id %}"><button class="btn-btn-danger">Delete</button></a></td>
+                    </tr>
+                    {% endfor  %}
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+{% endblock content %}

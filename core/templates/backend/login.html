@@ -1,0 +1,48 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div style="text-align: center; background-color: white;margin">
+    <div class="content-section" style="margin: 30px;">
+        <form id="login_form" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <h1>Log In</h1>
+                <hr/>
+                <span id="username_validate" style="color:#dc3545;font-size: 15px;font-weight: 700;"></span>
+                {{ form|crispy }}
+                <div class="form-group pt-3">
+                    <button class="btn btn-outline-info" type="button" onclick="validate_username()">Login</button>
+                    <small class="text-muted ml-2">
+                        <br/>
+                    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                    </small>
+                </div>
+
+            </fieldset>
+
+
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+            </small>
+        </div>
+    </div>
+</div>
+<script>
+    function validate_username(){
+        username=$("#id_username").val();
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(regex.test(username)){
+            $("#login_form").submit()
+        }else{
+           if( $.isNumeric(username)){
+             $("#login_form").submit()
+           }else{
+             $("#username_validate").text("Please enter valid Email or Mobile No.!")
+           }
+        }
+    }
+
+</script>
+{% endblock content %}

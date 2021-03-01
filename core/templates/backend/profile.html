@@ -1,0 +1,38 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        <ul>
+            <h2>Sidebar</h2>
+        </ul>
+        <ul>
+            <li><a class="nav-item nav-link active" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'movie_list' %}">Movies</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'star_list' %}">Stars</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'genre_list' %}">Genre</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8">
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" style="height: 200px;width: 200px;margin-right: 50px;" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.email }}</h2>
+        </div>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <hr/>
+          <fieldset class="form-group">
+              {{ u_form|crispy }}
+              {{ p_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Update</button>
+          </div>
+      </form>
+    </div>
+         </div>
+    </div>
+{% endblock content %}

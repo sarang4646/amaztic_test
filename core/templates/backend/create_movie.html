@@ -1,0 +1,134 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+    "dependencies": {
+    "select2": "~4.0"
+    }
+</style>
+<div class="row">
+    <div class="col-lg-4">
+        <ul>
+            <h2>Sidebar</h2>
+        </ul>
+        <ul>
+            <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'movie_list' %}">Movies</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'star_list' %}">Stars</a></li>
+            <li><a class="nav-item nav-link active" href="{% url 'genre_list' %}">Genre</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8">
+    <div class="content-section">
+            <h2>{{ page_title }}</h2>
+              <form id="from_id" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                  <div class="col-lg-12">
+                  <div class="form-group">
+                        <label for="exampleInputPassword1">Movie Name:</label>
+                        <input type="text" class="form-control" id="movie_name" placeholder="movie name" name="movie_name" value="{{ movies.movie_name }}" required>
+                        <span style="color: red" id="err_movie_name"></span>
+                  </div>
+                  <div class="form-group">
+                        <label for="exampleInputPassword1">Movie date:</label>
+                        <input type="date" class="form-control" id="release_date" placeholder="release date" name="release_date" value="{{ movies.release_date }}" required>
+                        <span style="color: red" id="err_release_date"></span>
+                  </div>
+                  <div class="form-group">
+                        <label for="exampleInputPassword1">Movie info:</label>
+                      <textarea type="text" class="form-control" id="movie_info" name="movie_info"  required>{{ movies.movie_info }}</textarea>
+                      <span style="color: red" id="err_movie_info"></span>
+                  </div>
+                  <div class="form-group">
+                        <label >Genre</label>
+                      <select class="js-example-basic-multiple" style="width: 100%;" name="genre[]" id="genre" multiple="multiple">
+                            {% for genre in genres %}
+                                <option value="{{ genre.id }}">{{ genre.genre_name }}</option>
+                            {% endfor %}
+                      </select>
+                      <span style="color: red" id="err_genre"></span>
+                  </div>
+                   <div class="form-group">
+                        <label >Stars</label>
+                      <select class="js-example-basic-multiple" style="width: 100%;" name="star[]" id="star" multiple="multiple">
+                            {% for stars in stars %}
+                                <option value="{{ stars.id }}">{{ stars.star_name }}</option>
+                            {% endfor %}
+                      </select>
+                       <span style="color: red" id="err_star"></span>
+                      </div>
+                      </div>
+                    <div class="col-lg-4">
+                   <div class="form-group">
+                        <label >Movie Banner1:</label>
+                      <input type="file"  id="movie_banner1" name="movie_banner1" required>
+                       <span style="color: red" id="err_movie_banner1"></span>
+                  </div>
+                   <div class="form-group">
+                        <label >Movie Banner2:</label>
+                      <input type="file"  id="movie_banner2" name="movie_banner2">
+                  </div>
+                   <div class="form-group">
+                        <label>Movie Banner3:</label>
+                      <input type="file"  id="movie_banner3" name="movie_banner3">
+                  </div>
+                    </div>
+                    <div class="col-lg-8">
+                        </div>
+                    <div class="col-lg-12">
+                  <div class="form-group">
+                      <button class="btn btn-info" type="button" onclick="validate_form()">{{ page_title }}</button>
+                  </div>
+                  </div>
+              </form>
+        </div>
+    </div>
+</div>
+<script>
+function validate_form(){
+    var err = 0;
+
+    if($("#movie_name").val() == ""){
+        $("#err_movie_name").text("Please enter valid Movie name!");
+        err = 1;
+    }
+    if($("#release_date").val() == ""){
+        $("#err_release_date").text("Please enter valid Movie Release Date!");
+        err = 1;
+    }
+    if($("#movie_info").val() == ""){
+        $("#err_movie_info").text("Please enter valid Movie Imformation!");
+        err = 1;
+    }
+    if($("#genre").val() == ""){
+        $("#err_genre").text("Please Select atlist 1 Genre!");
+        err = 1;
+    }
+    if($("#star").val() == ""){
+        $("#err_star").text("Please Select atlist 1 Star!");
+        err = 1;
+    }
+    if($("#movie_banner1").val() == ""){
+        $("#err_movie_banner1").text("Please Choose Image!");
+        err = 1;
+    }
+    if(err != 1 && err==0){
+        $("#from_id").submit()
+    }
+}
+</script>
+<script>
+
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+    $('#genre').val([{% for rel in rel_mg %} "'" + {{ rel.genre_id }} + "'," {% endfor %}]);
+    $('#genre').trigger('change');
+    $('#star').val([{% for rel in rel_ms %} "'" + {{ rel.star_id }} + "'," {% endfor %}]);
+    $('#star').trigger('change');
+});
+
+
+</script>
+{% endblock content %}

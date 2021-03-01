@@ -1,0 +1,81 @@
+{% extends "backend/base.html" %}
+{% load static %}
+{% block content %}
+ <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">{% if genres %}
+                                              {{ genres.genre_name|upper }}
+                                            {% endif %}</h1>
+        		</div><!-- End .container -->
+ </div><!-- End .page-header -->
+<hr>
+{% if genres %}
+    {%for movie in movies %}
+        {%for rel in movie.genre.all %}
+            {% if rel.id == genres.id %}
+                <div class="page-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="products mb-3">
+                                     <div class="product product-list">
+                                          <div class="row">
+                                              <div class="col-6 col-lg-4">
+                                                  <figure class="product-media">
+                                                      <a href="{% url 'movie' movie.id %}">
+                                                          <img src="{{ movie.poster1.url }}" alt="Product image" class="product-image">
+                                                      </a>
+                                                  </figure><!-- End .product-media -->
+                                              </div><!-- End .col-sm-6 col-lg-3 -->
+                                              <div class="col-lg-8">
+                                                  <div class="product-body product-action-inner">
+                                                      <div class="product-cat">
+                                                                                {%for rel in movie.genre.all %}
+                                                                                    {% if rel.id == movie.id %}
+                                                                                        <a href="{% url 'movie' movie.id %}">{{ genres.genre_name }}</a>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div><!-- End .product-cat -->
+                                                                            <h3 class="product-title"><a href="{% url 'movie' movie.id %}">{{ movie.movie_name }}</a></h3><!-- End .product-title -->
+                                                                            {%for rel in movie.stars.all %}
+                                                                                {% if rel.id == movie.id %}
+                                                                                        <a href="{% url 'star' rel.id %}">{{ rel.star_name }}</a>,
+                                                                                {% endif %}
+                                                                            {% endfor %}
+
+                                                                            <div class="product-content">
+                                                                                <p>{{ movie.movie_info }}</p>
+                                                                            </div><!-- End .product-content -->
+
+                                                                            <div class="product-nav product-nav-thumbs">
+                                                                                {% if movie.poster1 %}
+                                                                                    <a href="#" class="active">
+                                                                                        <img src="{{ movie.poster1.url }}" alt="product desc">
+                                                                                    </a>
+                                                                                {% endif %}
+                                                                                {% if movie.poster2 %}
+                                                                                    <a href="#" >
+                                                                                        <img src="{{ movie.poster2.url }}" alt="product desc">
+                                                                                    </a>
+                                                                                {% endif %}
+                                                                                {% if movie.poster3 %}
+                                                                                    <a href="#" >
+                                                                                        <img src="{{ movie.poster3.url }}" alt="product desc">
+                                                                                    </a>
+                                                                                {% endif %}
+                                                                            </div><!-- End .product-nav -->
+                                                                        </div><!-- End .product-body -->
+                                                                    </div><!-- End .col-lg-6 -->
+                                                                </div><!-- End .row -->
+                                     </div><!-- End .product -->
+
+                                </div>
+                            </div><!-- End .col-lg-9 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+            </div><!-- End .page-content -->
+ {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+{% endif %}
+{% endblock content %}

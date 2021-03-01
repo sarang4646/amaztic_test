@@ -1,0 +1,58 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+
+<div class="row">
+    <div class="col-lg-4">
+        <ul>
+            <h2>Sidebar</h2>
+        </ul>
+        <ul>
+            <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="nav-item nav-link active" href="{% url 'movie_list' %}">Movies</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'star_list' %}">Stars</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'genre_list' %}">Genre</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8">
+    <div class="content-section">
+        <a href="{% url 'add_movie' %}" style="float:right"><button class="btn-btn-Success">Add New Movie</button></a>
+        <div class="col-lg-2">
+            <h2>Movie </h2>
+        </div>
+              <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="20%">Poster</th>
+                        <th width="10%">Movie Name</th>
+                        <th width="40%">Movie Info</th>
+                        <th width="10%">Release Date</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movie in movies %}
+                    <tr>
+                        <td><img class="account-img" style="height: 100px;width: 100px;padding: 5px;" src="{% if movie.poster1.url %}{{ movie.poster1.url }}{% endif  %}"></td>
+                        <td>{{ movie.movie_name|upper }}</td>
+                        <td>{{ movie.movie_info|upper }}</td>
+                        <td>{{ movie.release_date }}</td>
+                        <td><a href="{% url 'update_movie' movie.id %}"><button class="btn-btn-info">Edit</button></a></td>
+                        <td><a href="{% url 'delete_movie' movie.id %}"><button class="btn-btn-danger">Delete</button></a></td>
+                    </tr>
+                    {% endfor  %}
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+});
+</script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+{% endblock content %}

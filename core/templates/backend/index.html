@@ -1,0 +1,78 @@
+{% extends "backend/base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+                        <div class="col-lg-12">
+                            <div class="intro-slider-container slider-container-ratio slider-container-1 mb-2 mb-lg-0">
+                                <div class="intro-slider intro-slider-1 owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{
+                                        "nav": false,
+                                        "responsive": {
+                                            "768": {
+                                                "nav": true
+                                            }
+                                        }
+                                    }'>
+                                    {% if home_banners %}
+                                        {% for homebanner in home_banners %}
+                                    <div class="intro-slide">
+                                        <figure class="slide-image">
+                                            <picture>
+                                                <img src="{{ homebanner.banner.url }}" alt="Image Desc">
+                                            </picture>
+                                        </figure><!-- End .slide-image -->
+                                    </div><!-- End .intro-slide -->
+                                        {% endfor %}
+                                    {% endif %}
+                                </div><!-- End .intro-slider owl-carousel owl-simple -->
+                                <span class="slider-loader"></span><!-- End .slider-loader -->
+                            </div><!-- End .intro-slider-container -->
+                        </div><!-- End .col-lg-8 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-lighter -->
+            <div class="mb-6"></div><!-- End .mb-6 -->
+            <div class="container">
+                <div class="heading heading-center mb-6">
+                    <h2 class="title">Upcoming Movies</h2><!-- End .title -->
+                    <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                        {% if genres %}
+                        {%for genre in genres %}
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-fur-link" data-toggle="tab" href="#top-fur-{{ genre.id }}" role="tab" aria-controls="top-fur-tab" aria-selected="false">{{ genre.genre_name }}</a>
+                        </li>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div><!-- End .heading -->
+                <div class="tab-content">
+                    {% if genres %}
+                        {%for ge in genres %}
+                        <div class="tab-pane p-0 fade" id="top-fur-{{ ge.id }}" role="tabpanel" aria-labelledby="top-fur-link">
+                            <div class="products">
+                                <div class="row justify-content-center">
+                                {%for movie in movies %}
+                                    {%for genre in movie.genre.all %}
+                                    {% if genre.id == ge.id %}
+
+                                        <div class="col-6 col-md-4 col-lg-3">
+                                           <div class="product product-11 mt-v3 text-center">
+                                               <figure class="product-media">
+                                                  <span class="product-label label-new">{{ movie.movie_name }}</span>
+                                                        <a href="{% url 'movie' movie.id %}">
+                                                            <img src="{{ movie.poster1.url }}" alt="Product image" class="product-image">
+                                                            <img src="{{ movie.poster1.url }}" alt="Product image" class="product-image-hover">
+                                                        </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                 {% endif %}
+                                 {% endfor %}
+                              {% endfor %}
+                             </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                     {% endfor %}
+                   {% endif %}
+            </div><!-- End .tab-content -->
+            </div><!-- End .container -->
+{% endblock content %}

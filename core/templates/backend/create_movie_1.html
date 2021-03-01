@@ -1,0 +1,40 @@
+{% extends "backend/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+
+<div class="row">
+    <div class="col-lg-4">
+        <ul>
+            <h2>Sidebar</h2>
+        </ul>
+        <ul>
+            <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'movie_list' %}">Movies</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'star_list' %}">Stars</a></li>
+            <li><a class="nav-item nav-link active" href="{% url 'genre_list' %}">Genre</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-8">
+        <div class="content-section">
+            <div class="col-lg-2">
+                <h2>Movie</h2>
+            </div>
+            <form method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+            <button type="submit">Movie Upload</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+{% endblock content %}
