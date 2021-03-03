@@ -9,7 +9,7 @@ class LoginModelBackend(BaseBackend):
                 user = User.objects.get(email=username)
             else:
                 try:
-                    if username.isnumber():
+                    if username.isnumeric():
                         user = User.objects.get(username=username)
                 except User.DoesNotExist:
                     return None
