@@ -6,6 +6,7 @@ from .models import User, Profile
 
 
 class UserCreationForm(forms.ModelForm):
+    username = forms.CharField(label='Mobile', widget=forms.NumberInput)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
