@@ -2,10 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Genre, Movie, HomeBanner, StarCast
-
-
-# , rel_movie_star, rel_movie_genre
-
+from .forms import GenreUpdateForm, GenreCreateForm, StarCastUpdateForm, StarCastCreateForm, MovieUpdateForm, MovieCreateForm
 
 def index(request):
     page_title = 'movieapp : home'
@@ -66,7 +63,7 @@ def star(request, id):
         'genres_head': genres_head,
         'genres': genres,
         'stars': stars,
-        'rel_ms': rel_ms
+        # 'rel_ms': rel_ms
     }
     return render(request, 'backend/movie.html', context)
 

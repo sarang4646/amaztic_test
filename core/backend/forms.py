@@ -1,5 +1,5 @@
 from django import forms
-from core.backend.models import *
+from .models import *
 
 
 class GenreUpdateForm(forms.ModelForm):
