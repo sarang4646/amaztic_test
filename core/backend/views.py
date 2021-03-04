@@ -77,7 +77,7 @@ def movie_list(request):
         return redirect('movie_list')
     else:
         context = {
-            'movies': Movie.objects.filter()
+            'movies': Movie.objects.filter(author=request.user)
         }
         pass
     return render(request, 'backend/movie_list.html', context)
@@ -258,7 +258,7 @@ def star_list(request):
         return redirect('star_list')
     else:
         context = {
-            'starCast': StarCast.objects.all()
+            'starCast': StarCast.objects.filter(author=request.user)
         }
         pass
     return render(request, 'backend/star_list.html', context)
@@ -269,6 +269,7 @@ def create_star(request, id=None):
     if request.method == 'POST':
         star = StarCast()
         form = StarCastCreateForm(request.POST, request.FILES, instance=star)
+        form.instance.author = request.user
         if form.is_valid():
             form.save()
             messages.success(request, f'Data Created!')
@@ -287,6 +288,7 @@ def update_star(request, id):
     if request.method == 'POST':
         star = StarCast.objects.get(id=id)
         form = StarCastUpdateForm(request.POST, request.FILES, instance=star)
+        form.instance.author = request.user
         if form.is_valid():
             form.save()
             messages.success(request, f'Data updated!')
@@ -313,7 +315,7 @@ def genre_list(request):
         return redirect('genre_list')
     else:
         context = {
-            'genres': Genre.objects.all()
+            'genres': Genre.objects.filter(author=request.user)
         }
         pass
     return render(request, 'backend/genre_list.html', context)
@@ -324,6 +326,7 @@ def create_genre(request):
     if request.method == 'POST':
         genre = genre = Genre()
         form = GenreCreateForm(request.POST, instance=genre)
+        form.instance.author = request.user
         if form.is_valid():
             form.save()
             messages.success(request, f'Data Created!')
@@ -342,6 +345,7 @@ def update_genre(request, id):
     if request.method == 'POST':
         genre = Genre.objects.get(id=id)
         form = GenreUpdateForm(request.POST, instance=genre)
+        form.instance.author = request.user
         if form.is_valid():
             form.save()
             messages.success(request, f'Data updated!')
