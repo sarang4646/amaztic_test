@@ -55,21 +55,22 @@
                                 }
                             }
                         }'>
-                         {% for re in rel_ms %}
-                            <div class="product product-7">
-                            <figure class="product-media">
-                                <a href="{% url 'movie' re.movie_id.id %}">
-                                    <img src="{{ re.movie_id.banner1.url }}" alt="Product image" class="product-image">
-                                </a>
-                            </figure><!-- End .product-media -->
-                            <div class="product-body">
-                                <h3 class="product-title"><a href="{% url 'movie' re.movie_id.id %}">{{ re.movie_id.movie_name|upper }}</a></h3><!-- End .product-title -->
-                            </div><!-- End .product-body -->
-                        </div><!-- End .product -->
-                        {% endfor %}
-                    </div><!-- End .owl-carousel -->
-                </div><!-- End .container -->
-            </div><!-- End .page-content -->
+                             {% for movie in movies %}
+                                <div class="product product-7">
+                                <figure class="product-media">
+                                    <a href="{% url 'movie' movie.id %}">
+                                        <img src="{{ movie.poster1.url }}" alt="Product image" class="product-image">
+                                    </a>
+                                </figure><!-- End .product-media -->
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'movie' movie.id %}">{{ movie.movie_name|upper }}</a></h3><!-- End .product-title -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- End .container -->
+                </div><!-- End .page-content -->
+            </div>
 {% endfor %}
 {% endif %}
 {% endblock content %}

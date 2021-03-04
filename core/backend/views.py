@@ -40,8 +40,6 @@ def movie(request, id):
     genres = Genre.objects.filter(active=True)
     genres_head = Genre.objects.filter(active=True)[:5]
     movies = Movie.objects.filter(id=id)
-    # rel_mg = rel_movie_genre.objects.filter(movie_id=id)
-    # rel_ms = rel_movie_star.objects.filter(movie_id=id)
     context = {
         'page_title': page_title,
         'genres_head': genres_head,
@@ -58,17 +56,16 @@ def star(request, id):
     genres = Genre.objects.filter(active=True)
     genres_head = Genre.objects.filter(active=True)[:5]
     stars = StarCast.objects.filter(id=id)
-    # rel_ms = rel_movie_star.objects.filter(star_id=id)
+    movies = Movie.objects.filter(stars__id=id)
+
     context = {
         'page_title': page_title,
         'genres_head': genres_head,
         'genres': genres,
         'stars': stars,
-        # 'rel_ms': rel_ms
+        'movies': movies,
     }
     return render(request, 'backend/star.html', context)
-
-
 
 
 @login_required
@@ -82,130 +79,6 @@ def movie_list(request):
         pass
     return render(request, 'backend/movie_list.html', context)
 
-
-# @login_required
-# def create_movie(request):
-#     if request.method == 'POST':
-#
-#         movie_obj = Movie()
-#
-#         movie_obj.movie_name = request.POST.get('movie_name')
-#         movie_obj.poster1 = request.POST.get('movie_banner1')
-#         movie_obj.poster2 = request.POST.get('movie_banner2')
-#         movie_obj.poster3 = request.POST.get('movie_banner3')
-#         movie_obj.movie_info = request.POST.get('movie_info')
-#         movie_obj.release_date = request.POST.get('release_date')
-#         movie_obj.author = request.user
-#
-#         movie_obj.save()
-#
-#         movie_obj.id
-#
-#         genre_list = request.POST.get('genre[]')
-#         star_list = request.POST.get('star[]')
-#
-#         rel_movie_genre_obj = rel_movie_genre()
-#         rel_movie_star_obj = rel_movie_star()
-#
-#         if id is not None:
-#             rel_mg = rel_movie_genre.objects.filter(movie_id=id).delete()
-#             rel_ms = rel_movie_star.objects.filter(movie_id=id).delete()
-#
-#         for stars in star_list:
-#             stars_obj = StarCast.objects.get(id = stars)
-#             rel_movie_star_obj.movie_id = movie_obj
-#             rel_movie_star_obj.star_id = stars_obj
-#             rel_movie_star_obj.save()
-#
-#         for genre in genre_list:
-#             genre_obj = Genre.objects.get(id = genre)
-#             rel_movie_genre_obj.movie_id = movie_obj
-#             rel_movie_genre_obj.genre_id = genre_obj
-#             rel_movie_genre_obj.save()
-#
-#         return redirect('movie_list')
-#     else:
-#         page_title = 'Add Movie'
-#         genres = Genre.objects.filter(active=True)
-#         genres_head = Genre.objects.filter(active=True)[:5]
-#         stars = StarCast.objects.filter(active=True)
-#         movies = None
-#         rel_mg = None
-#         rel_ms = None
-#         context = {
-#             'page_title': page_title,
-#             'genres_head':genres_head,
-#             'genres': genres,
-#             'stars': stars,
-#             'movies': movies,
-#             'rel_mg': rel_mg,
-#             'rel_ms': rel_ms
-#         }
-#         pass
-#     return render(request, 'backend/create_movie.html', context)
-#
-#
-# @login_required
-# def update_movie(request, id = None):
-#     if request.method == 'POST':
-#
-#         movie_obj = Movie.objects.get(id = id)
-#
-#         movie_obj.movie_name = request.POST.get('movie_name')
-#         movie_obj.poster1 = request.POST.get('movie_banner1')
-#         movie_obj.poster2 = request.POST.get('movie_banner2')
-#         movie_obj.poster3 = request.POST.get('movie_banner3')
-#         movie_obj.movie_info = request.POST.get('movie_info')
-#         movie_obj.release_date = request.POST.get('release_date')
-#         movie_obj.author = request.user
-#
-#         movie_obj.save()
-#
-#         movie_obj.id
-#
-#         genre_list = request.POST.get('genre[]')
-#         star_list = request.POST.get('star[]')
-#
-#         rel_movie_genre_obj = rel_movie_genre()
-#         rel_movie_star_obj = rel_movie_star()
-#
-#
-#         rel_mg = rel_movie_genre.objects.filter(movie_id=id).delete()
-#         rel_ms = rel_movie_star.objects.filter(movie_id=id).delete()
-#
-#         for stars in star_list:
-#             stars_obj = StarCast.objects.get(id = stars)
-#             rel_movie_star_obj.movie_id = movie_obj
-#             rel_movie_star_obj.star_id = stars_obj
-#             rel_movie_star_obj.save()
-#
-#         for genre in genre_list:
-#             genre_obj = Genre.objects.get(id = genre)
-#             rel_movie_genre_obj.movie_id = movie_obj
-#             rel_movie_genre_obj.genre_id = genre_obj
-#             rel_movie_genre_obj.save()
-#
-#         return redirect('movie_list')
-#     else:
-#         page_title = 'Edit Movie'
-#         genres = Genre.objects.filter(active=True)
-#         genres_head = Genre.objects.filter(active=True)[:5]
-#         stars = StarCast.objects.filter(active=True)
-#         movies = Movie.objects.get(id=id)
-#         rel_mg = rel_movie_genre.objects.filter(movie_id=id)
-#         rel_ms = rel_movie_star.objects.filter(movie_id=id)
-#
-#         context = {
-#             'page_title': page_title,
-#             'genres_head':genres_head,
-#             'genres': genres,
-#             'stars': stars,
-#             'movies': movies,
-#             'rel_mg': rel_mg,
-#             'rel_ms': rel_ms
-#         }
-#         pass
-#     return render(request, 'backend/create_movie.html', context)
 
 @login_required
 def create_movie(request):
