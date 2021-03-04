@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Genre, Movie, HomeBanner, StarCast
 from .forms import GenreUpdateForm, GenreCreateForm, StarCastUpdateForm, StarCastCreateForm, MovieUpdateForm, MovieCreateForm
 
+
 def index(request):
     page_title = 'movieapp : home'
     genres = Genre.objects.filter(active=True)
@@ -65,7 +66,7 @@ def star(request, id):
         'stars': stars,
         # 'rel_ms': rel_ms
     }
-    return render(request, 'backend/movie.html', context)
+    return render(request, 'backend/star.html', context)
 
 
 

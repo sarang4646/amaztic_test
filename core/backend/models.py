@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 
+
 class Genre(models.Model):
     genre_name = models.CharField(max_length=250, null=False, unique=True)
     genre_info = models.CharField(max_length=250, null=False)
